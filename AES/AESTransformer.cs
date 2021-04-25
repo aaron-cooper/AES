@@ -130,6 +130,13 @@ namespace AES
             }
             state[i] = temp;
         }
+        private static void InvSubBytes(ref byte[] state, int off)
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                state[i + off] = RijndaelSubBox.SubInverse(state[i + off]);
+            }
+        }
 
 
 
