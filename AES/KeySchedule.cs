@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AES
 {
-    internal class KeySchedule
+    public class KeySchedule
     {
         private static UInt32[] Rcon =
         {
@@ -27,7 +27,7 @@ namespace AES
             0x4D000000,
             0x9A000000
         };
-        internal static UInt32[] GenerateSchedule(byte[] key)
+        public static byte[] GenerateSchedule(byte[] key)
         {
             int nk = key.Length / 4;
             switch(nk)
@@ -44,7 +44,7 @@ namespace AES
 
             for (int i = 0; i < nk; i++)
             {
-                w[i] = word(key, i * 4);
+                w[i] = Word(key, i * 4);
             }
             for(int i = nk; i < 4 * (nr + 1); i++)
             {
@@ -59,10 +59,22 @@ namespace AES
                 }
                 w[i] = w[i - nk] ^ temp;
             }
-            return w;
+            byte[] schedule = new byte[4 * w.Length];
+            CopyWordToByteArr(w, ref schedule);
+            return schedule;
         }
 
-        private static UInt32 word(in byte[] key, int offset)
+        private static void CopyWordToByteArr(in UInt32[] w, ref byte[] key)
+        {
+            for (int i = 0; i < w.Length; i++)
+            {
+                key[4 * i] = (byte)(w[i] >> 24);
+                key[4 * i + 1] = (byte)(w[i] >> 16);
+                key[4 * i + 2] = (byte)(w[i] >> 8);
+                key[4 * i + 3] = (byte)(w[i]);
+            }
+        }
+        private static UInt32 Word(in byte[] key, int offset)
         {
             UInt32 i;
             i = (UInt32)key[offset] << 24 | (UInt32)key[offset + 1] << 16 | (UInt32)key[offset + 2] << 8 | (UInt32)key[offset + 3];
