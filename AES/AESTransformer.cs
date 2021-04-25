@@ -89,7 +89,7 @@ namespace AES
                 byte b2 = state[i2];
                 byte b3 = state[i3];
 
-                state[i0] = (byte)(GField.Mult(2, b0) ^ GField.Mult(3, b1) ^ b2 ^ state[i3]);
+                state[i0] = (byte)(GField.Mult(2, b0) ^ GField.Mult(3, b1) ^ b2 ^ b3);
                 state[i1] = (byte)(b0 ^ GField.Mult(2, b1) ^ GField.Mult(3, b2) ^ b3);
                 state[i2] = (byte)(b0 ^ b1 ^ GField.Mult(2, b2) ^ GField.Mult(3, b3));
                 state[i3] = (byte)(GField.Mult(3, b0) ^ b1 ^ b2 ^ GField.Mult(2, b3));
@@ -137,8 +137,31 @@ namespace AES
                 state[i + off] = RijndaelSubBox.SubInverse(state[i + off]);
             }
         }
+        private static void InvMixColumns(ref byte[] state, int off)
+        {
+            int i0 = 0;
+            int i1 = 1;
+            int i2 = 2;
+            int i3 = 3;
 
 
+            for (int i = 0; i < 4; i++)
+            {
+                byte b0 = state[i0];
+                byte b1 = state[i1];
+                byte b2 = state[i2];
+                byte b3 = state[i3];
 
+                state[i0] = (byte)(GField.Mult(0x0e, b0) ^ GField.Mult(0x0b, b1) ^ GField.Mult(0x0d, b2) ^ GField.Mult(0x09, b3));
+                state[i1] = (byte)(GField.Mult(0x09, b0) ^ GField.Mult(0x0e, b1) ^ GField.Mult(0x0b, b2) ^ GField.Mult(0x0d, b3));
+                state[i2] = (byte)(GField.Mult(0x0d, b0) ^ GField.Mult(0x09, b1) ^ GField.Mult(0x0e, b2) ^ GField.Mult(0x0b, b3));
+                state[i3] = (byte)(GField.Mult(0x0b, b0) ^ GField.Mult(0x0d, b1) ^ GField.Mult(0x09, b2) ^ GField.Mult(0x0e, b3));
+
+                i0 += 4;
+                i1 += 4;
+                i2 += 4;
+                i3 += 4;
+            }
+        }
     }
 }
