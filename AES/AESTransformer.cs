@@ -100,6 +100,38 @@ namespace AES
                 i3 += 4;
             }
         }
+        private static void InvShiftRows(ref byte[] state, int off)
+        {
+            // row 2
+            int i = 13 + off;
+            byte temp = state[i];
+            for (; i > off + 3; i -= 4)
+            {
+                state[i] = state[i - 4];
+            }
+            state[i] = temp;
+
+            // row 3
+            i = off + 2;
+            temp = state[i];
+            state[i] = state[i + 8];
+            state[i + 8] = temp;
+            i = off + 6;
+            temp = state[i];
+            state[i] = state[i + 8];
+            state[i + 8] = temp;
+
+            // row 4
+            i = 3 + off;
+            temp = state[i];
+            for (; i < off + 15; i += 4)
+            {
+                state[i] = state[i + 4];
+            }
+            state[i] = temp;
+        }
+
+
 
     }
 }
