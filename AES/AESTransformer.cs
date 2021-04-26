@@ -29,6 +29,26 @@ namespace AES
             AddRoundKey(ref input, offset, ref keySchedule, round * 16);
         }
 
+        public static void Decipher(ref byte[] input, int offset, byte[] key)
+        {
+            byte[] keySchedule = KeySchedule.GenerateSchedule(key);
+            int nr = keySchedule.Length / 16 - 1;
+
+            AddRoundKey(ref input, offset, ref keySchedule, nr * 16);
+
+            for (int round = nr - 1; round > 0; round--)
+            {
+                InvShiftRows(ref input, offset);
+                InvSubBytes(ref input, offset);
+                AddRoundKey(ref input, offset, ref keySchedule, round * 16);
+                InvMixColumns(ref input, offset);
+            }
+            InvShiftRows(ref input, offset);
+            InvSubBytes(ref input, offset);
+            AddRoundKey(ref input, offset, ref keySchedule, 0);
+
+        }
+
         private static void AddRoundKey(ref byte[] state, int stateOff, ref byte[] roundKey, int roundKeyOff)
         {
             for (int i = 0; i < 16; i++)
