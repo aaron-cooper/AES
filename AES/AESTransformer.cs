@@ -1,9 +1,17 @@
 ﻿using System;
+using System.Security.Cryptography;
 
 namespace AES
 {
-    public class AESTransformer
+    public class AESTransformer : ICryptoTransform
     {
+        public bool CanReuseTransform => throw new NotImplementedException();
+
+        public bool CanTransformMultipleBlocks => throw new NotImplementedException();
+
+        public int InputBlockSize => throw new NotImplementedException();
+
+        public int OutputBlockSize => throw new NotImplementedException();
 
         public static void Cipher(ref byte[] input, int offset, byte[] key)
         {
@@ -182,6 +190,21 @@ namespace AES
                 i2 += 4;
                 i3 += 4;
             }
+        }
+
+        public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }
