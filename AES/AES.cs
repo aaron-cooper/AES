@@ -6,8 +6,11 @@ namespace AES
 {
     public class AES : IDisposable
     {
+        public const int KeySize = 32;
         public byte[] Key { get; set; }
+        public const int IVSize = 16;
         public byte[] IV { get; set; }
+        public const int BlockSize = 16;
 
         private RandomNumberGenerator rng;
 
@@ -30,12 +33,14 @@ namespace AES
 
         public void GenerateIV()
         {
-            throw new NotImplementedException();
+            IV = new byte[IVSize];
+            rng.GetBytes(IV);
         }
 
         public void GenerateKey()
         {
-            throw new NotImplementedException();
+            Key = new byte[KeySize];
+            rng.GetBytes(Key);
         }
 
         public void Dispose()
