@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Runtime.CompilerServices;
 
 namespace AES
 {
@@ -39,7 +40,7 @@ namespace AES
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            rng.Dispose();
         }
     }
 }
