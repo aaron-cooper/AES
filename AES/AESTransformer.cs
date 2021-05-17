@@ -5,6 +5,10 @@ namespace AES
 {
     public class AESTransformer : ICryptoTransform
     {
+
+        private static int[] ValidKeySizes = new int[] { 16, 24, 32 };
+        private byte[] key;
+        private byte[] iv;
         public bool CanReuseTransform => throw new NotImplementedException();
 
         public bool CanTransformMultipleBlocks => throw new NotImplementedException();
@@ -12,6 +16,31 @@ namespace AES
         public int InputBlockSize => throw new NotImplementedException();
 
         public int OutputBlockSize => throw new NotImplementedException();
+
+        public AESTransformer(byte[] key, byte[] iv)
+        {
+            int keySize = key.Length;
+            bool validSize = false;
+            foreach (int size in ValidKeySizes)
+            {
+                if (keySize == size)
+                {
+                    validSize = true;
+                    break;
+                }
+            }
+            if (!validSize)
+            {
+                throw new ArgumentException("key must be 16, 24, or 32 bytes in length", "key");
+            }
+            if (iv.Length != 16)
+            {
+                throw new ArgumentException("iv must be 16 bytes in length");
+            }
+
+            this.key = key;
+            this.iv = iv;
+        }
 
         public static void Cipher(ref byte[] input, int offset, byte[] key)
         {
