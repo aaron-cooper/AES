@@ -66,11 +66,17 @@ namespace AES
 
         private RandomNumberGenerator rng;
 
-        private AES()
+        public AES()
         {
             using RandomNumberGenerator rng = RandomNumberGenerator.Create();
             this.GenerateKey();
             this.GenerateIV();
+        }
+
+        public AES(byte[] key, byte[] iv)
+        {
+            this.Key = key;
+            this.IV = iv;
         }
 
         public ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
