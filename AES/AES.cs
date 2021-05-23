@@ -47,5 +47,22 @@ namespace AES
         {
             rng.Dispose();
         }
+
+        public static bool IsKeyValid(byte[] key)
+        {
+            switch (key.Length)
+            {
+                case 16:
+                case 24:
+                case 32:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        public static bool IsValidIP(byte[] iv)
+        {
+            return iv.Length == 16;
+        }
     }
 }
