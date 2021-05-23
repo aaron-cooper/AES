@@ -1,11 +1,26 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace AES
 {
     public class AES : IDisposable
     {
+        private static SortedSet<int> _validKeySizes = new SortedSet<int>
+        {
+            16,
+            24,
+            32
+        };
+        public static int ValidBlockSize
+        {
+            get => 16;
+        }
+        public static int ValidIVSize
+        {
+            get => 16;
+        }
         public const int KeySize = 32;
         public byte[] Key { get; set; }
         public const int IVSize = 16;
@@ -48,21 +63,48 @@ namespace AES
             rng.Dispose();
         }
 
-        public static bool IsKeyValid(byte[] key)
-        {
-            switch (key.Length)
+        public static List<int> ValidKeySizes { 
+            get
             {
-                case 16:
-                case 24:
-                case 32:
-                    return true;
-                default:
-                    return false;
+                return new List<int>(_validKeySizes);
             }
         }
-        public static bool IsValidIP(byte[] iv)
+        public static int MaximumKeySize
         {
-            return iv.Length == 16;
+            get
+            {
+                return _validKeySizes.Max;
+            }
+        }
+        public static int MinimumKeySize
+        {
+            get
+            {
+                return _validKeySizes.Min;
+            }
+        }
+        public static void ThrowIfKeyInvalid(byte[] key)
+        {
+            if (!IsKeyValid(key))
+            {
+                throw new ArgumentException("Key must be 16, 24, or 32 bytes in length");
+            }
+        }
+
+        private static bool IsKeyValid(byte[] key)
+        {
+            return _validKeySizes.Contains(key.Length);
+        }
+        public static void ThrowIfIvInvalid(byte[] iv)
+        {
+            if (!IsValidIV(iv))
+            {
+                throw new ArgumentException("IV must be 16 bytes in length");
+            }
+        }
+        private static bool IsValidIV(byte[] iv)
+        {
+            return iv.Length == ValidIVSize;
         }
     }
 }
