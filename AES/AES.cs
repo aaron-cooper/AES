@@ -21,11 +21,48 @@ namespace AES
         {
             get => 16;
         }
-        public const int KeySize = 32;
-        public byte[] Key { get; set; }
-        public const int IVSize = 16;
-        public byte[] IV { get; set; }
-        public const int BlockSize = 16;
+
+
+        private byte[] _key;
+        public byte[] Key
+        {
+            get
+            {
+                return _key;
+            }
+            set
+            {
+                ThrowIfKeyInvalid(value);
+                _key = value;
+            }
+        }
+        public int KeySize
+        {
+            get => Key.Length;
+        }
+
+        private byte[] _iv;
+        public byte[] IV
+        {
+            get
+            {
+                return _iv;
+            }
+            set
+            {
+                ThrowIfIvInvalid(IV);
+                _iv = value;
+            }
+        }
+        public int IVSize
+        {
+            get => IV.Length;
+        }
+        public int BlockSize
+        {
+            get => 16;
+        }
+
 
         private RandomNumberGenerator rng;
 
