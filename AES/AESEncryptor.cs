@@ -5,6 +5,8 @@ namespace AES
 {
     class AESEncryptor : ICryptoTransform
     {
+        private byte[] roundKey;
+        private byte[] iv;
         public bool CanReuseTransform => true;
 
         public bool CanTransformMultipleBlocks => true;
@@ -12,6 +14,15 @@ namespace AES
         public int InputBlockSize => AES.ValidBlockSize;
 
         public int OutputBlockSize => AES.ValidBlockSize;
+
+        public AESEncryptor(byte[] key, byte[] iv)
+        {
+            AES.ThrowIfKeyInvalid(key);
+            AES.ThrowIfIvInvalid(iv);
+
+            this.roundKey = KeySchedule.GenerateSchedule(key);
+            this.iv = iv;
+        }
 
         public void Dispose()
         {
