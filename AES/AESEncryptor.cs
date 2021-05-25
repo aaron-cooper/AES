@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace AES
 {
-    class AESEncryptor : ICryptoTransform
+    public class AESEncryptor : ICryptoTransform
     {
         private byte[] roundKey;
         private byte[] iv;
