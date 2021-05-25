@@ -108,10 +108,10 @@ namespace AES
         }
         private void MixColumns(ref byte[] state, int off)
         {
-            int i0 = 0;
-            int i1 = 1;
-            int i2 = 2;
-            int i3 = 3;
+            int i0 = 0 + off;
+            int i1 = 1 + off;
+            int i2 = 2 + off;
+            int i3 = 3 + off;
 
 
             for (int i = 0; i < 4; i++)
