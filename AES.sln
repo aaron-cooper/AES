@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\
 		{8901410B-938A-4A87-81FD-901AC432795E} = {8901410B-938A-4A87-81FD-901AC432795E}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AESUnitTesting", "AESUnitTesting\AESUnitTesting.csproj", "{9F25174F-CD74-4ECA-97D1-67D95A111F80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{26F16DA0-D26D-456F-AE24-12CA541D9F83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26F16DA0-D26D-456F-AE24-12CA541D9F83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26F16DA0-D26D-456F-AE24-12CA541D9F83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F25174F-CD74-4ECA-97D1-67D95A111F80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F25174F-CD74-4ECA-97D1-67D95A111F80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F25174F-CD74-4ECA-97D1-67D95A111F80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F25174F-CD74-4ECA-97D1-67D95A111F80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
