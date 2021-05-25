@@ -7,6 +7,9 @@ namespace AES
     {
         private byte[] roundKey;
         private byte[] iv;
+        private byte[] prevCiphertext = new byte[16];
+
+        Action<byte[], int> cbcApplier;
         public bool CanReuseTransform => true;
 
         public bool CanTransformMultipleBlocks => true;
@@ -22,6 +25,8 @@ namespace AES
 
             this.roundKey = KeySchedule.GenerateSchedule(key);
             this.iv = iv;
+
+            cbcApplier = InitialCBC;
         }
 
         public void Dispose()
@@ -38,7 +43,28 @@ namespace AES
         {
             throw new System.NotImplementedException();
         }
-        public void Cipher(ref byte[] input, int offset, byte[] key)
+        public void InitialCBC(byte[] buffer, int bufferOffset)
+        {
+            int i = bufferOffset;
+            int j = 0;
+            for (; i < bufferOffset + 16; i++, j++)
+            {
+                buffer[i] = (byte)(buffer[i] ^ iv[j]);
+            }
+            cbcApplier = LastBlockCBC;
+        }
+        public void LastBlockCBC(byte[] buffer, int bufferOffset)
+        {
+            int i = bufferOffset;
+            int j = bufferOffset - 16;
+            for (; i < bufferOffset + 16; i++, j++)
+            {
+                buffer[i] = (byte)(buffer[i] ^ buffer[j]);
+            }
+        }
+
+
+        public void Cipher(ref byte[] input, int offset)
         {
             if (input.Length - offset < 16)
             {
