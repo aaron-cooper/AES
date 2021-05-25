@@ -6,6 +6,7 @@ namespace AES
     public class AESEncryptor : ICryptoTransform
     {
         private byte[] roundKey;
+        private int numberOfRounds;
         private byte[] iv;
         private byte[] prevCiphertext = new byte[16];
 
@@ -25,6 +26,7 @@ namespace AES
 
             this.roundKey = KeySchedule.GenerateSchedule(key);
             this.iv = iv;
+            this.numberOfRounds = roundKey.Length / 16 - 1;
 
             cbcApplier = InitialCBC;
         }
@@ -100,12 +102,11 @@ namespace AES
             {
                 throw new ArgumentException("input length must be at least offset + 16", "input");
             }
-            int nr = roundKey.Length / 16 - 1;
 
             AddRoundKey(ref input, offset, 0);
 
             int round = 1;
-            for (; round < nr; round++)
+            for (; round < numberOfRounds; round++)
             {
                 SubBytes(ref input, offset);
                 ShiftRows(ref input, offset);
