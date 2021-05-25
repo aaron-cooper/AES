@@ -36,12 +36,42 @@ namespace AES
 
         public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
         {
-            throw new System.NotImplementedException();
+            // if invalid input size
+            if (inputCount <= 0 || (inputCount & 0xf) != 0)
+            {
+                throw new ArgumentException("inputCount must be multiple of block size", "inputCount");
+            }
+            Array.Copy(inputBuffer, inputOffset, outputBuffer, outputOffset, inputCount);
+            for (int i = 0; i < (inputCount >> 4); i++)
+            {
+                cbcApplier(outputBuffer, outputOffset);
+                Cipher(ref outputBuffer, outputOffset);
+                outputOffset += 16;
+            }
+            Array.Copy(outputBuffer, outputOffset - 16, iv, 0, 16);
+            cbcApplier = InitialCBC;
+            return inputCount;
         }
-
         public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
         {
-            throw new System.NotImplementedException();
+            if (inputCount <= 0)
+            {
+                throw new ArgumentException("inputCount must be more than 0");
+            }
+
+            // round up to nearest multiple of 16. If we're already
+            // at a multiple of 16, round up anyway (we'll always
+            // need at least 1 extra byte of room)
+            int countWithPadding = ((inputCount >> 4) + 1) << 4;
+            byte[] outputBuffer = new byte[countWithPadding];
+
+            Array.Copy(inputBuffer, inputOffset, outputBuffer, 0, inputCount);
+            for (int i = inputCount; i < countWithPadding; i++)
+            {
+                outputBuffer[i] = (byte)(countWithPadding - inputCount);
+            }
+            TransformBlock(outputBuffer, 0, countWithPadding, outputBuffer, 0);
+            return outputBuffer;
         }
         public void InitialCBC(byte[] buffer, int bufferOffset)
         {
@@ -70,10 +100,9 @@ namespace AES
             {
                 throw new ArgumentException("input length must be at least offset + 16", "input");
             }
-            byte[] keySchedule = KeySchedule.GenerateSchedule(key);
-            int nr = keySchedule.Length / 16 - 1;
+            int nr = roundKey.Length / 16 - 1;
 
-            AddRoundKey(ref input, offset, ref keySchedule, 0);
+            AddRoundKey(ref input, offset, ref roundKey, 0);
 
             int round = 1;
             for (; round < nr; round++)
@@ -81,11 +110,11 @@ namespace AES
                 SubBytes(ref input, offset);
                 ShiftRows(ref input, offset);
                 MixColumns(ref input, offset);
-                AddRoundKey(ref input, offset, ref keySchedule, round * 16);
+                AddRoundKey(ref input, offset, ref roundKey, round * 16);
             }
             SubBytes(ref input, offset);
             ShiftRows(ref input, offset);
-            AddRoundKey(ref input, offset, ref keySchedule, round * 16);
+            AddRoundKey(ref input, offset, ref roundKey, round * 16);
         }
         private static void AddRoundKey(ref byte[] state, int stateOff, ref byte[] roundKey, int roundKeyOff)
         {
