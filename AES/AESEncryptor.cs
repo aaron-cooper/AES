@@ -26,7 +26,7 @@ namespace AES
 
             this.roundKey = KeySchedule.GenerateSchedule(key);
             this.iv = iv;
-            this.numberOfRounds = roundKey.Length / 16 - 1;
+            this.numberOfRounds = roundKey.Length - 16;
 
             cbcApplier = InitialCBC;
         }
@@ -105,17 +105,18 @@ namespace AES
 
             AddRoundKey(ref input, offset, 0);
 
-            int round = 1;
-            for (; round < numberOfRounds; round++)
+            // round is used to keep track of # of iterations as well as round key offset
+            int round = 16;
+            for (; round < numberOfRounds; round += 16)
             {
                 SubBytes(ref input, offset);
                 ShiftRows(ref input, offset);
                 MixColumns(ref input, offset);
-                AddRoundKey(ref input, offset, round * 16);
+                AddRoundKey(ref input, offset, round);
             }
             SubBytes(ref input, offset);
             ShiftRows(ref input, offset);
-            AddRoundKey(ref input, offset, round * 16);
+            AddRoundKey(ref input, offset, round);
         }
         private void AddRoundKey(ref byte[] state, int stateOff, int roundKeyOff)
         {
