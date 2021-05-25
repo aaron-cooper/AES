@@ -102,7 +102,7 @@ namespace AES
             }
             int nr = roundKey.Length / 16 - 1;
 
-            AddRoundKey(ref input, offset, ref roundKey, 0);
+            AddRoundKey(ref input, offset, 0);
 
             int round = 1;
             for (; round < nr; round++)
@@ -110,13 +110,13 @@ namespace AES
                 SubBytes(ref input, offset);
                 ShiftRows(ref input, offset);
                 MixColumns(ref input, offset);
-                AddRoundKey(ref input, offset, ref roundKey, round * 16);
+                AddRoundKey(ref input, offset, round * 16);
             }
             SubBytes(ref input, offset);
             ShiftRows(ref input, offset);
-            AddRoundKey(ref input, offset, ref roundKey, round * 16);
+            AddRoundKey(ref input, offset, round * 16);
         }
-        private static void AddRoundKey(ref byte[] state, int stateOff, ref byte[] roundKey, int roundKeyOff)
+        private void AddRoundKey(ref byte[] state, int stateOff, int roundKeyOff)
         {
             for (int i = 0; i < 16; i++)
             {
