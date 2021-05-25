@@ -81,11 +81,19 @@ namespace AES
             this.IV = iv;
         }
 
+        public ICryptoTransform CreateDecryptor()
+        {
+            return CreateDecryptor(this.Key, this.IV);
+        }
         public ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
             throw new NotImplementedException();
         }
 
+        public ICryptoTransform CreateEncryptor()
+        {
+            return CreateEncryptor(this.Key, this.IV);
+        }
         public ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
             return new AESEncryptor(rgbKey, rgbIV);
