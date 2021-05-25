@@ -88,7 +88,7 @@ namespace AES
 
         public ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            throw new NotImplementedException();
+            return new AESEncryptor(rgbKey, rgbIV);
         }
 
         public void GenerateIV()
