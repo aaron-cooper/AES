@@ -15,5 +15,29 @@ namespace AESUnitTesting
             AES.AES aes = new AES.AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
         }
+
+        [Test]
+        public void Test_encryptSmallFinalBlock()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+            byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7 };
+            byte[] after = encryptor.TransformFinalBlock(toTransform, 0, toTransform.Length);
+
+            byte[] expectedAfter = { 140, 58, 160, 75, 146, 104, 11, 200, 169, 67, 22, 127, 121, 91, 25, 17 };
+            CheckArraysEqual(after, expectedAfter);
+        }
+
+//=========================================================== common
+        private void CheckArraysEqual(byte[] arr1, byte[] arr2)
+        {
+            Assert.AreEqual(arr1.Length, arr2.Length);
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                Assert.AreEqual(arr1[i], arr2[i]);
+            }
+        }
+
+        
     }
 }
