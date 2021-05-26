@@ -59,6 +59,18 @@ namespace AESUnitTesting
             CheckArraysEqual(output, expected);
         }
 
+        [Test]
+        public void Test_encryptBlock()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+            byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            byte[] output = new byte[16];
+            encryptor.TransformBlock(toTransform, 0, 16, output, 0);
+            byte[] expected = { 242, 144, 0, 182, 42, 73, 159, 208, 169, 243, 154, 106, 221, 46, 119, 128, };
+            CheckArraysEqual(output, expected);
+        }
+
 
 //=========================================================== common
         private void CheckArraysEqual(byte[] arr1, byte[] arr2)
