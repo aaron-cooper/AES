@@ -27,6 +27,26 @@ namespace AESUnitTesting
             byte[] expectedAfter = { 140, 58, 160, 75, 146, 104, 11, 200, 169, 67, 22, 127, 121, 91, 25, 17 };
             CheckArraysEqual(after, expectedAfter);
         }
+        [Test]
+        public void Test_encryptSmallFinalBlockAfterOtherBlock()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+
+            byte[] firstBlock = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            byte[] finalBlock = { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+            byte[] firstOutput = new byte[16];
+            byte[] finalOutput;
+
+            encryptor.TransformBlock(firstBlock, 0, 16, firstOutput, 0);
+            finalOutput = encryptor.TransformFinalBlock(finalBlock, 0, finalBlock.Length);
+
+            byte[] firstExpected = { 242, 144, 0, 182, 42, 73, 159, 208, 169, 243, 154, 106, 221, 46, 119, 128, };
+            byte[] finalExpected = { 25, 5, 33, 39, 94, 197, 236, 127, 71, 122, 213, 35, 220, 108, 81, 8, };
+            CheckArraysEqual(firstOutput, firstExpected);
+            CheckArraysEqual(finalExpected, finalOutput);
+        }
 
 //=========================================================== common
         private void CheckArraysEqual(byte[] arr1, byte[] arr2)
