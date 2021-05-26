@@ -50,7 +50,7 @@ namespace AES
             }
             set
             {
-                ThrowIfIvInvalid(IV);
+                ThrowIfIvInvalid(value);
                 _iv = value;
             }
         }
