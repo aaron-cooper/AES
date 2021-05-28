@@ -33,7 +33,8 @@ namespace AES
             set
             {
                 ThrowIfKeyInvalid(value);
-                _key = value;
+                _key = new byte[value.Length];
+                Array.Copy(value, _key, value.Length);
             }
         }
         public int KeySize
