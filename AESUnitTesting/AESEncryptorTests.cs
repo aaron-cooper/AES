@@ -99,6 +99,23 @@ namespace AESUnitTesting
             }
             Assert.Fail();
         }
+        [Test]
+        public void Test_encryptInvalidLargeSize()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+            byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
+            try
+            {
+                encryptor.TransformBlock(toTransform, 0, toTransform.Length, toTransform, 0);
+            }
+            catch(ArgumentException)
+            {
+                // exception expected, this is correct behavior
+                Assert.Pass();
+            }
+            Assert.Fail();
+        }
 
 //=========================================================== common
         private void CheckArraysEqual(byte[] arr1, byte[] arr2)
