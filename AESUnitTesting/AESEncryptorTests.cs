@@ -7,6 +7,7 @@ namespace AESUnitTesting
 {
     class AESEncryptorTests
     {
+        const int blocksize = 16;
         private byte[] Key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
         private byte[] IV = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
@@ -115,6 +116,34 @@ namespace AESUnitTesting
                 Assert.Pass();
             }
             Assert.Fail();
+        }
+        [Test]
+        public void Test_encryptorInputBlockSize()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+            Assert.AreEqual(encryptor.InputBlockSize, blocksize);
+        }
+        [Test]
+        public void Test_encryptorOutputBlockSize()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+            Assert.AreEqual(encryptor.OutputBlockSize, blocksize);
+        }
+        [Test]
+        public void Test_encryptorCanReuseTransform()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+            Assert.IsTrue(encryptor.CanReuseTransform);
+        }
+        [Test]
+        public void Test_encryptorCanTransformMultipleBlocks()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+            Assert.IsTrue(encryptor.CanTransformMultipleBlocks);
         }
 
 //=========================================================== common
