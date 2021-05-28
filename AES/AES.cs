@@ -52,7 +52,8 @@ namespace AES
             set
             {
                 ThrowIfIvInvalid(value);
-                _iv = value;
+                _iv = new byte[value.Length];
+                Array.Copy(value, _iv, value.Length);
             }
         }
         public int IVSize
