@@ -25,7 +25,8 @@ namespace AES
             AES.ThrowIfIvInvalid(iv);
 
             this.roundKey = KeySchedule.GenerateSchedule(key);
-            this.iv = iv;
+            this.iv = new byte[iv.Length];
+            Array.Copy(iv, this.iv, iv.Length);
             this.numberOfRounds = roundKey.Length - 16;
 
             cbcApplier = InitialCBC;
