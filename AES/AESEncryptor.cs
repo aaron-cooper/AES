@@ -34,7 +34,7 @@ namespace AES
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+            // intentionally empty
         }
 
         public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
