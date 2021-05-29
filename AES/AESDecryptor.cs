@@ -13,6 +13,11 @@ namespace AES
 
         public int OutputBlockSize => throw new NotImplementedException();
 
+        public AESDecryptor(byte[] key, byte[] iv)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
         {
             throw new NotImplementedException();
