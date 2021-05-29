@@ -157,6 +157,18 @@ namespace AESUnitTesting
             byte[] expected = { 145, 98, 81, 130, 28, 115, 165, 34, 195, 150, 214, 39, 56, 1, 150, 7, };
             CheckArraysEqual(output, expected);
         }
+        [Test]
+        public void Test_encryptWith16ByteKey()
+        {
+            byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+            AES.AES aes = new AES.AES(key, IV);
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+            byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            byte[] output = new byte[16];
+            encryptor.TransformBlock(toTransform, 0, 16, output, 0);
+            byte[] expected = { 198, 161, 59, 55, 135, 143, 91, 130, 111, 79, 129, 98, 161, 200, 216, 121, };
+            CheckArraysEqual(output, expected);
+        }
 
 //=========================================================== common
         private void CheckArraysEqual(byte[] arr1, byte[] arr2)
