@@ -27,7 +27,7 @@ namespace AESUnitTesting
             byte[] after = encryptor.TransformFinalBlock(toTransform, 0, toTransform.Length);
 
             byte[] expectedAfter = { 140, 58, 160, 75, 146, 104, 11, 200, 169, 67, 22, 127, 121, 91, 25, 17 };
-            CheckArraysEqual(after, expectedAfter);
+            TestUtilities.CheckArraysEqual(after, expectedAfter);
         }
         [Test]
         public void Test_encryptSmallFinalBlockAfterOtherBlock()
@@ -46,8 +46,8 @@ namespace AESUnitTesting
 
             byte[] firstExpected = { 242, 144, 0, 182, 42, 73, 159, 208, 169, 243, 154, 106, 221, 46, 119, 128, };
             byte[] finalExpected = { 25, 5, 33, 39, 94, 197, 236, 127, 71, 122, 213, 35, 220, 108, 81, 8, };
-            CheckArraysEqual(firstOutput, firstExpected);
-            CheckArraysEqual(finalExpected, finalOutput);
+            TestUtilities.CheckArraysEqual(firstOutput, firstExpected);
+            TestUtilities.CheckArraysEqual(finalExpected, finalOutput);
         }
         [Test]
         public void Test_encryptLargeFinalBlock()
@@ -58,7 +58,7 @@ namespace AESUnitTesting
             byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, };
             byte[] output = encryptor.TransformFinalBlock(toTransform, 0, toTransform.Length);
             byte[] expected = { 242, 144, 0, 182, 42, 73, 159, 208, 169, 243, 154, 106, 221, 46, 119, 128, 149, 67, 184, 111, 192, 70, 250, 136, 58, 148, 70, 184, 46, 71, 209, 45, 245, 6, 211, 246, 165, 133, 51, 129, 86, 215, 23, 211, 134, 144, 25, 77, };
-            CheckArraysEqual(output, expected);
+            TestUtilities.CheckArraysEqual(output, expected);
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace AESUnitTesting
             byte[] output = new byte[16];
             encryptor.TransformBlock(toTransform, 0, 16, output, 0);
             byte[] expected = { 242, 144, 0, 182, 42, 73, 159, 208, 169, 243, 154, 106, 221, 46, 119, 128, };
-            CheckArraysEqual(output, expected);
+            TestUtilities.CheckArraysEqual(output, expected);
         }
         [Test]
         public void Test_encryptLargeBlock()
@@ -81,7 +81,7 @@ namespace AESUnitTesting
             byte[] output = new byte[48];
             encryptor.TransformBlock(toTransform, 0, 48, output, 0);
             byte[] expected = { 242, 144, 0, 182, 42, 73, 159, 208, 169, 243, 154, 106, 221, 46, 119, 128, 149, 67, 184, 111, 192, 70, 250, 136, 58, 148, 70, 184, 46, 71, 209, 45, 161, 68, 252, 37, 90, 173, 69, 191, 104, 29, 58, 55, 115, 163, 37, 194, };
-            CheckArraysEqual(output, expected);
+            TestUtilities.CheckArraysEqual(output, expected);
         }
         [Test]
         public void Test_encryptInvalidSmallSize()
@@ -155,7 +155,7 @@ namespace AESUnitTesting
             byte[] output = new byte[16];
             encryptor.TransformBlock(toTransform, 0, 16, output, 0);
             byte[] expected = { 145, 98, 81, 130, 28, 115, 165, 34, 195, 150, 214, 39, 56, 1, 150, 7, };
-            CheckArraysEqual(output, expected);
+            TestUtilities.CheckArraysEqual(output, expected);
         }
         [Test]
         public void Test_encryptWith16ByteKey()
@@ -167,19 +167,7 @@ namespace AESUnitTesting
             byte[] output = new byte[16];
             encryptor.TransformBlock(toTransform, 0, 16, output, 0);
             byte[] expected = { 198, 161, 59, 55, 135, 143, 91, 130, 111, 79, 129, 98, 161, 200, 216, 121, };
-            CheckArraysEqual(output, expected);
+            TestUtilities.CheckArraysEqual(output, expected);
         }
-
-//=========================================================== common
-        private void CheckArraysEqual(byte[] arr1, byte[] arr2)
-        {
-            Assert.AreEqual(arr1.Length, arr2.Length);
-            for (int i = 0; i < arr1.Length; i++)
-            {
-                Assert.AreEqual(arr1[i], arr2[i]);
-            }
-        }
-
-        
     }
 }
