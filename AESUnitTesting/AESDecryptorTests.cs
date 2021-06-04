@@ -17,5 +17,18 @@ namespace AESUnitTesting
             AES.AES aes = new AES.AES(Key, IV);
             ICryptoTransform decryptor = aes.CreateDecryptor();
         }
+
+        [Test]
+        public void Test_decryptSmallFinalBlock()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform decryptor = aes.CreateDecryptor();
+            byte[] toTransform = { 140, 58, 160, 75, 146, 104, 11, 200, 169, 67, 22, 127, 121, 91, 25, 17 };
+            byte[] expected = { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+            byte[] after = decryptor.TransformFinalBlock(toTransform, 0, toTransform.Length);
+
+            TestUtilities.CheckArraysEqual(after, expected);
+        }
     }
 }
