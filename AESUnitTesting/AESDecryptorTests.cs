@@ -147,5 +147,17 @@ namespace AESUnitTesting
             ICryptoTransform decryptor = aes.CreateDecryptor();
             Assert.IsTrue(decryptor.CanTransformMultipleBlocks);
         }
+        [Test]
+        public void Test_decryptWith24ByteKey()
+        {
+            byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+            AES.AES aes = new AES.AES(key, IV);
+            ICryptoTransform decryptor = aes.CreateDecryptor();
+            byte[] toTransform = { 145, 98, 81, 130, 28, 115, 165, 34, 195, 150, 214, 39, 56, 1, 150, 7, };
+            byte[] expected = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            byte[] output = new byte[16];
+            decryptor.TransformBlock(toTransform, 0, 16, output, 0);
+            TestUtilities.CheckArraysEqual(output, expected);
+        }
     }
 }
