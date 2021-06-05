@@ -133,5 +133,12 @@ namespace AESUnitTesting
             ICryptoTransform decryptor = aes.CreateDecryptor();
             Assert.AreEqual(decryptor.OutputBlockSize, blocksize);
         }
+        [Test]
+        public void Test_decryptorCanReuseTransform()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform decryptor = aes.CreateDecryptor();
+            Assert.IsTrue(decryptor.CanReuseTransform);
+        }
     }
 }
