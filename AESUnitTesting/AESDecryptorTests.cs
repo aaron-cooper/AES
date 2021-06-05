@@ -50,5 +50,18 @@ namespace AESUnitTesting
             TestUtilities.CheckArraysEqual(firstExpected, firstOut);
             TestUtilities.CheckArraysEqual(finalExpected, finalout);
         }
+        [Test]
+        public void Test_decryptLargeFinalBlock()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform decryptor = aes.CreateDecryptor();
+
+            byte[] toTransform = { 242, 144, 0, 182, 42, 73, 159, 208, 169, 243, 154, 106, 221, 46, 119, 128, 149, 67, 184, 111, 192, 70, 250, 136, 58, 148, 70, 184, 46, 71, 209, 45, 245, 6, 211, 246, 165, 133, 51, 129, 86, 215, 23, 211, 134, 144, 25, 77, };
+            byte[] expected = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, };
+
+            byte[] output = decryptor.TransformFinalBlock(toTransform, 0, toTransform.Length);
+
+            TestUtilities.CheckArraysEqual(expected, output);
+        }
     }
 }
