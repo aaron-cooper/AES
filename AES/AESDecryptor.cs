@@ -7,6 +7,7 @@ namespace AES
     {
         private byte[] roundKey;
         private byte[] iv;
+        private byte[] otherBuffer = new byte[16];
         private int numberOfRounds;
         public bool CanReuseTransform => throw new NotImplementedException();
 
@@ -34,10 +35,28 @@ namespace AES
 
         public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
         {
-            throw new NotImplementedException();
-        }
+            if (inputCount <= 0 || (inputCount & 0xf) != 0)
+            {
+                throw new ArgumentException("inputCount must be multiple of block size", "inputCount");
+            }
+            Array.Copy(inputBuffer, inputOffset, outputBuffer, outputOffset, inputCount);
+            int currBlockStart = outputOffset + inputCount - 16;
+            Array.Copy(outputBuffer, currBlockStart, otherBuffer, 0, 16);
 
-        public void InitialCBC(byte[] buffer, int bufferOffset)
+            for (;currBlockStart > outputOffset; currBlockStart -= 16)
+            {
+                Decipher(ref outputBuffer, currBlockStart);
+                LastBlockCBC(outputBuffer, currBlockStart);
+            }
+            Decipher(ref outputBuffer, currBlockStart);
+            IVBlockCBC(outputBuffer, currBlockStart);
+
+            byte[] temp = otherBuffer;
+            otherBuffer = iv;
+            iv = temp;
+
+            return inputCount;
+        }
         public void IVBlockCBC(byte[] buffer, int bufferOffset)
         {
             int i = bufferOffset;
