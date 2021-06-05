@@ -85,5 +85,22 @@ namespace AESUnitTesting
             decryptor.TransformBlock(toTransform, 0, 48, output, 0);
             TestUtilities.CheckArraysEqual(output, expected);
         }
+        [Test]
+        public void Test_decryptInvalidSmallSize()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform decryptor = aes.CreateDecryptor();
+            byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            try
+            {
+                decryptor.TransformBlock(toTransform, 0, toTransform.Length, toTransform, 0);
+            }
+            catch (ArgumentException)
+            {
+                // exception expected, this is correct behavior
+                Assert.Pass();
+            }
+            Assert.Fail();
+        }
     }
 }
