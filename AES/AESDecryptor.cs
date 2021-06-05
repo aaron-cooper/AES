@@ -5,6 +5,9 @@ namespace AES
 {
     class AESDecryptor : ICryptoTransform
     {
+        private byte[] roundKey;
+        private byte[] iv;
+        private int numberOfRounds;
         public bool CanReuseTransform => throw new NotImplementedException();
 
         public bool CanTransformMultipleBlocks => throw new NotImplementedException();
@@ -15,7 +18,13 @@ namespace AES
 
         public AESDecryptor(byte[] key, byte[] iv)
         {
-            throw new NotImplementedException();
+            AES.ThrowIfKeyInvalid(key);
+            AES.ThrowIfIvInvalid(iv);
+
+            this.roundKey = KeySchedule.GenerateSchedule(key);
+            this.iv = new byte[iv.Length];
+            Array.Copy(iv, this.iv, iv.Length);
+            this.numberOfRounds = roundKey.Length - 16;
         }
 
         public void Dispose()
