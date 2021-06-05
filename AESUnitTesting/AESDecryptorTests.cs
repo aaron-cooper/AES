@@ -102,5 +102,22 @@ namespace AESUnitTesting
             }
             Assert.Fail();
         }
+        [Test]
+        public void Test_decryptInvalidLargeSize()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform decryptor = aes.CreateDecryptor();
+            byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+            try
+            {
+                decryptor.TransformBlock(toTransform, 0, toTransform.Length, toTransform, 0);
+            }
+            catch (ArgumentException)
+            {
+                // exception expected, this is correct behavior
+                Assert.Pass();
+            }
+            Assert.Fail();
+        }
     }
 }
