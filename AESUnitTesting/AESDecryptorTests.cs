@@ -159,5 +159,17 @@ namespace AESUnitTesting
             decryptor.TransformBlock(toTransform, 0, 16, output, 0);
             TestUtilities.CheckArraysEqual(output, expected);
         }
+        [Test]
+        public void Test_decryptWith16ByteKey()
+        {
+            byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            AES.AES aes = new AES.AES(key, IV);
+            ICryptoTransform decryptor = aes.CreateDecryptor();
+            byte[] toTransform = { 198, 161, 59, 55, 135, 143, 91, 130, 111, 79, 129, 98, 161, 200, 216, 121, };
+            byte[] expected = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            byte[] output = new byte[16];
+            decryptor.TransformBlock(toTransform, 0, 16, output, 0);
+            TestUtilities.CheckArraysEqual(output, expected);
+        }
     }
 }
