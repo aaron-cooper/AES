@@ -119,5 +119,12 @@ namespace AESUnitTesting
             }
             Assert.Fail();
         }
+        [Test]
+        public void Test_decryptorInputBlockSize()
+        {
+            AES.AES aes = new AES.AES(Key, IV);
+            ICryptoTransform decryptor = aes.CreateDecryptor();
+            Assert.AreEqual(decryptor.InputBlockSize, blocksize);
+        }
     }
 }
