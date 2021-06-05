@@ -29,7 +29,7 @@ namespace AES
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            // left intentionally blank
         }
 
         public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
