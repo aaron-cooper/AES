@@ -37,6 +37,25 @@ namespace AES
             throw new NotImplementedException();
         }
 
+        public void InitialCBC(byte[] buffer, int bufferOffset)
+        public void IVBlockCBC(byte[] buffer, int bufferOffset)
+        {
+            int i = bufferOffset;
+            int j = 0;
+            for (; i < bufferOffset + 16; i++, j++)
+            {
+                buffer[i] = (byte)(buffer[i] ^ iv[j]);
+            }
+        }
+        public void LastBlockCBC(byte[] buffer, int bufferOffset)
+        {
+            int i = bufferOffset;
+            int j = bufferOffset - 16;
+            for (; i < bufferOffset + 16; i++, j++)
+            {
+                buffer[i] = (byte)(buffer[i] ^ buffer[j]);
+            }
+        }
         public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
         {
             throw new NotImplementedException();
