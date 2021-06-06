@@ -16,7 +16,7 @@ namespace AES
 
         public int InputBlockSize => 16;
 
-        public int OutputBlockSize => throw new NotImplementedException();
+        public int OutputBlockSize => 16;
 
         public AESDecryptor(byte[] key, byte[] iv)
         {
