@@ -14,7 +14,7 @@ namespace AES
 
         public bool CanTransformMultipleBlocks => true;
 
-        public int InputBlockSize => throw new NotImplementedException();
+        public int InputBlockSize => 16;
 
         public int OutputBlockSize => throw new NotImplementedException();
 
