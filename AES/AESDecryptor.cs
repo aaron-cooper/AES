@@ -12,7 +12,7 @@ namespace AES
 
         public bool CanReuseTransform => true;
 
-        public bool CanTransformMultipleBlocks => throw new NotImplementedException();
+        public bool CanTransformMultipleBlocks => true;
 
         public int InputBlockSize => throw new NotImplementedException();
 
