@@ -9,7 +9,8 @@ namespace AES
         private byte[] iv;
         private byte[] otherBuffer = new byte[16];
         private int numberOfRounds;
-        public bool CanReuseTransform => throw new NotImplementedException();
+
+        public bool CanReuseTransform => true;
 
         public bool CanTransformMultipleBlocks => throw new NotImplementedException();
 
