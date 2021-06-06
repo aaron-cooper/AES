@@ -77,7 +77,30 @@ namespace AES
         }
         public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
         {
-            throw new NotImplementedException();
+            if (inputCount <= 0)
+            {
+                throw new ArgumentException("inputCount must be more than 0", "inputCount");
+            }
+
+            byte[] outputBufferWithPadding = new byte[inputCount];
+            TransformBlock(inputBuffer, inputOffset, inputCount, outputBufferWithPadding, 0);
+            int padding = (int)outputBufferWithPadding[inputCount - 1];
+            if (padding > 16)
+            {
+                throw new CryptographicException("Padding is invalid and cannot be removed.");
+            }
+
+            int countWithoutPadding = inputCount - padding;           
+            for (int i = countWithoutPadding; i < inputCount; i++)
+            {
+                if (outputBufferWithPadding[i] != padding)
+                {
+                    throw new CryptographicException("Padding is invalid and cannot be removed.");
+                }
+            }
+            byte[] outputBuffer = new byte[countWithoutPadding];
+            Array.Copy(outputBufferWithPadding, outputBuffer, inputCount - padding);
+            return outputBuffer;
         }
 
         public void Decipher(ref byte[] input, int offset)
