@@ -115,7 +115,10 @@ namespace AES
 
         public void Dispose()
         {
-            rng.Dispose();
+            if (rng != null)
+            {
+                rng.Dispose();
+            }
         }
 
         public static List<int> ValidKeySizes { 
