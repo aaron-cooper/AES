@@ -157,6 +157,18 @@ namespace AESUnitTesting
             aes.GenerateIV();
             Assert.IsFalse(TestUtilities.AreArraysEqual(iv, aes.IV), "IVs before and after GenerateIV call are identical");
         }
+        [Test]
+        public void Test_AESDispose()
+        {
+            AES.AES aes = new AES.AES();
+            aes.Dispose();
+            aes.Dispose();
 
+            byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            byte[] iv = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            aes = new AES.AES(key, iv);
+            aes.Dispose();
+            aes.Dispose();
+        }
     }
 }
