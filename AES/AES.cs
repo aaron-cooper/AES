@@ -70,7 +70,7 @@ namespace AES
 
         public AES()
         {
-            using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+            this.rng = RandomNumberGenerator.Create();
             this.GenerateKey();
             this.GenerateIV();
         }
@@ -101,14 +101,16 @@ namespace AES
 
         public void GenerateIV()
         {
-            IV = new byte[IVSize];
-            rng.GetBytes(IV);
+            byte[] iv = new byte[ValidIVSize];
+            rng.GetBytes(iv);
+            this._iv = iv;
         }
 
         public void GenerateKey()
         {
-            Key = new byte[KeySize];
-            rng.GetBytes(Key);
+            byte[] key = new byte[MaximumKeySize];
+            rng.GetBytes(key);
+            this._key = key;
         }
 
         public void Dispose()
