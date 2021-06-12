@@ -138,6 +138,10 @@ namespace AES
         }
         public static void ThrowIfKeyInvalid(byte[] key)
         {
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
             if (!IsKeyValid(key))
             {
                 throw new ArgumentException("Key must be 16, 24, or 32 bytes in length");
@@ -150,6 +154,10 @@ namespace AES
         }
         public static void ThrowIfIvInvalid(byte[] iv)
         {
+            if (iv == null)
+            {
+                throw new ArgumentNullException("iv");
+            }
             if (!IsValidIV(iv))
             {
                 throw new ArgumentException("IV must be 16 bytes in length");
