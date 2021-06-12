@@ -95,5 +95,68 @@ namespace AESUnitTesting
             byte[] iv = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             AES.AES aes = new AES.AES(key, iv);
         }
+        [Test]
+        public void Test_AESValidKeySizes()
+        {
+            var keySizes = AES.AES.ValidKeySizes;
+            if (keySizes.Contains(16) && keySizes.Contains(24) && keySizes.Contains(32))
+            {
+                Assert.Pass();
+            }
+            else
+            {
+                Assert.Fail();
+            }
+        }
+        [Test]
+        public void Test_AESChangeValidKeySizes()
+        {
+            AES.AES.ValidKeySizes[0] = 2435662;
+            Test_AESValidKeySizes();
+        }
+        [Test]
+        public void Test_AESMaximumKeySize()
+        {
+            Assert.AreEqual(32, AES.AES.MaximumKeySize);
+        }
+        [Test]
+        public void Test_AESMinimumKeySize()
+        {
+            Assert.AreEqual(16, AES.AES.MinimumKeySize);
+        }
+        [Test]
+        public void Test_AESValidIVSize()
+        {
+            Assert.AreEqual(16, AES.AES.ValidIVSize);
+        }
+        [Test]
+        public void Test_AESValidBlockSize()
+        {
+            Assert.AreEqual(16, AES.AES.ValidBlockSize);
+            AES.AES aes = new AES.AES();
+        }
+        [Test]
+        public void Test_AESBlockSize()
+        {
+            AES.AES aes = new AES.AES();
+            Assert.AreEqual(16, aes.BlockSize);
+        }
+        [Test]
+        public void Test_AESGenerateKey()
+        {
+            AES.AES aes = new AES.AES();
+            byte[] key = aes.Key;
+            aes.GenerateKey();
+            Assert.IsFalse(TestUtilities.AreArraysEqual(key, aes.Key), "Keys before and after GenerateKey call are identical");
+        }
+        [Test]
+        public void Test_AESGenerateIV()
+        {
+            AES.AES aes = new AES.AES();
+            byte[] iv = aes.IV;
+            aes.GenerateIV();
+            Assert.IsFalse(TestUtilities.AreArraysEqual(iv, aes.IV), "IVs before and after GenerateIV call are identical");
+        }
+
     }
 }
