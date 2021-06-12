@@ -1,6 +1,6 @@
 ﻿namespace AES
 {
-    public class RijndaelSubBox
+    internal class RijndaelSubBox
     {
         private static byte[] table = new byte[256]
         {
@@ -41,11 +41,11 @@
             0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d
         };
 
-        public static byte Sub(byte c)
+        internal static byte Sub(byte c)
         {
             return table[c];
         }
-        public static byte SubInverse(byte c)
+        internal static byte SubInverse(byte c)
         {
             return inverse[c];
         }

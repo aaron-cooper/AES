@@ -58,7 +58,7 @@ namespace AES
 
             return inputCount;
         }
-        public void IVBlockCBC(byte[] buffer, int bufferOffset)
+        private void IVBlockCBC(byte[] buffer, int bufferOffset)
         {
             int i = bufferOffset;
             int j = 0;
@@ -67,7 +67,7 @@ namespace AES
                 buffer[i] = (byte)(buffer[i] ^ iv[j]);
             }
         }
-        public void LastBlockCBC(byte[] buffer, int bufferOffset)
+        private void LastBlockCBC(byte[] buffer, int bufferOffset)
         {
             int i = bufferOffset;
             int j = bufferOffset - 16;
@@ -104,7 +104,7 @@ namespace AES
             return outputBuffer;
         }
 
-        public void Decipher(ref byte[] input, int offset)
+        private void Decipher(ref byte[] input, int offset)
         {
             if (input.Length - offset < 16)
             {

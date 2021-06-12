@@ -76,7 +76,7 @@ namespace AES
             TransformBlock(outputBuffer, 0, countWithPadding, outputBuffer, 0);
             return outputBuffer;
         }
-        public void InitialCBC(byte[] buffer, int bufferOffset)
+        private void InitialCBC(byte[] buffer, int bufferOffset)
         {
             int i = bufferOffset;
             int j = 0;
@@ -86,7 +86,7 @@ namespace AES
             }
             cbcApplier = LastBlockCBC;
         }
-        public void LastBlockCBC(byte[] buffer, int bufferOffset)
+        private void LastBlockCBC(byte[] buffer, int bufferOffset)
         {
             int i = bufferOffset;
             int j = bufferOffset - 16;
@@ -97,7 +97,7 @@ namespace AES
         }
 
 
-        public void Cipher(ref byte[] input, int offset)
+        private void Cipher(ref byte[] input, int offset)
         {
             if (input.Length - offset < 16)
             {

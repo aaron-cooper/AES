@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace AES
 {
-    public class GField
+    internal class GField
     {
         /// <summary>
         /// Multiply two values in GF(2^8)
         /// </summary>
-        public static byte Mult(byte a, byte b)
+        internal static byte Mult(byte a, byte b)
         {
             // peasant multiplication, reduce as described in fips 197
             byte product = 0;

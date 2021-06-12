@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AES
 {
-    public class KeySchedule
+    internal class KeySchedule
     {
         private static UInt32[] Rcon =
         {
@@ -27,7 +27,7 @@ namespace AES
             0x4D000000,
             0x9A000000
         };
-        public static byte[] GenerateSchedule(byte[] key)
+        internal static byte[] GenerateSchedule(byte[] key)
         {
             int nk = key.Length / 4;
             switch(nk)
