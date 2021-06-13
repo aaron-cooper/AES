@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using Cryptography;
 
 namespace AESUnitTesting
 {
@@ -8,7 +9,7 @@ namespace AESUnitTesting
         [Test]
         public void Test_AESConstructor()
         {
-            AES.AES aes = new AES.AES();
+            AES aes = new AES();
         }
         [Test]
         public void Test_AESConstructorWithArgs()
@@ -16,7 +17,7 @@ namespace AESUnitTesting
             byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             byte[] iv = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
-            AES.AES aes = new AES.AES(key, iv);
+            AES aes = new AES(key, iv);
         }
         [Test]
         public void Test_AESConstructorNullKey()
@@ -25,7 +26,7 @@ namespace AESUnitTesting
             byte[] iv = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             try
             {
-                AES.AES aes = new AES.AES(key, iv);
+                AES aes = new AES(key, iv);
             }
             catch (ArgumentException e)
             {
@@ -39,7 +40,7 @@ namespace AESUnitTesting
             byte[] iv = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             try
             {
-                AES.AES aes = new AES.AES(key, iv);
+                AES aes = new AES(key, iv);
             }
             catch (ArgumentException e)
             {
@@ -51,7 +52,7 @@ namespace AESUnitTesting
         {
             byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             byte[] iv = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-            AES.AES aes = new AES.AES(key, iv);
+            AES aes = new AES(key, iv);
         }
         [Test]
         public void Test_AESConstructorNullIV()
@@ -60,7 +61,7 @@ namespace AESUnitTesting
             byte[] iv = null;
             try
             {
-                AES.AES aes = new AES.AES(key, iv);
+                AES aes = new AES(key, iv);
             }
             catch (ArgumentException e)
             {
@@ -74,7 +75,7 @@ namespace AESUnitTesting
             byte[] iv = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
             try
             {
-                AES.AES aes = new AES.AES(key, iv);
+                AES aes = new AES(key, iv);
             }
             catch (ArgumentException e)
             {
@@ -86,19 +87,19 @@ namespace AESUnitTesting
         {
             byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
             byte[] iv = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-            AES.AES aes = new AES.AES(key, iv);
+            AES aes = new AES(key, iv);
         }
         [Test]
         public void Test_AESConstructorWithValidArgs32ByteKey()
         {
             byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
             byte[] iv = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-            AES.AES aes = new AES.AES(key, iv);
+            AES aes = new AES(key, iv);
         }
         [Test]
         public void Test_AESValidKeySizes()
         {
-            var keySizes = AES.AES.ValidKeySizes;
+            var keySizes = AES.ValidKeySizes;
             if (keySizes.Contains(16) && keySizes.Contains(24) && keySizes.Contains(32))
             {
                 Assert.Pass();
@@ -111,40 +112,40 @@ namespace AESUnitTesting
         [Test]
         public void Test_AESChangeValidKeySizes()
         {
-            AES.AES.ValidKeySizes[0] = 2435662;
+            AES.ValidKeySizes[0] = 2435662;
             Test_AESValidKeySizes();
         }
         [Test]
         public void Test_AESMaximumKeySize()
         {
-            Assert.AreEqual(32, AES.AES.MaximumKeySize);
+            Assert.AreEqual(32, AES.MaximumKeySize);
         }
         [Test]
         public void Test_AESMinimumKeySize()
         {
-            Assert.AreEqual(16, AES.AES.MinimumKeySize);
+            Assert.AreEqual(16, AES.MinimumKeySize);
         }
         [Test]
         public void Test_AESValidIVSize()
         {
-            Assert.AreEqual(16, AES.AES.ValidIVSize);
+            Assert.AreEqual(16, AES.ValidIVSize);
         }
         [Test]
         public void Test_AESValidBlockSize()
         {
-            Assert.AreEqual(16, AES.AES.ValidBlockSize);
-            AES.AES aes = new AES.AES();
+            Assert.AreEqual(16, AES.ValidBlockSize);
+            AES aes = new AES();
         }
         [Test]
         public void Test_AESBlockSize()
         {
-            AES.AES aes = new AES.AES();
+            AES aes = new AES();
             Assert.AreEqual(16, aes.BlockSize);
         }
         [Test]
         public void Test_AESGenerateKey()
         {
-            AES.AES aes = new AES.AES();
+            AES aes = new AES();
             byte[] key = aes.Key;
             aes.GenerateKey();
             Assert.IsFalse(TestUtilities.AreArraysEqual(key, aes.Key), "Keys before and after GenerateKey call are identical");
@@ -152,7 +153,7 @@ namespace AESUnitTesting
         [Test]
         public void Test_AESGenerateIV()
         {
-            AES.AES aes = new AES.AES();
+            AES aes = new AES();
             byte[] iv = aes.IV;
             aes.GenerateIV();
             Assert.IsFalse(TestUtilities.AreArraysEqual(iv, aes.IV), "IVs before and after GenerateIV call are identical");
@@ -160,13 +161,13 @@ namespace AESUnitTesting
         [Test]
         public void Test_AESDispose()
         {
-            AES.AES aes = new AES.AES();
+            AES aes = new AES();
             aes.Dispose();
             aes.Dispose();
 
             byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             byte[] iv = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-            aes = new AES.AES(key, iv);
+            aes = new AES(key, iv);
             aes.Dispose();
             aes.Dispose();
         }

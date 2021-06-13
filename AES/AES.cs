@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 
-namespace AES
+namespace Cryptography
 {
     public class AES : IDisposable
     {

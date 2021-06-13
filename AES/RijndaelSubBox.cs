@@ -1,4 +1,4 @@
-﻿namespace AES
+﻿namespace Cryptography
 {
     internal class RijndaelSubBox
     {

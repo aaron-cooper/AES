@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace AES
+namespace Cryptography
 {
     public class AESEncryptor : ICryptoTransform
     {

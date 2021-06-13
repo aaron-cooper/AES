@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Security.Cryptography;
-using AES;
+using Cryptography;
 using System;
 
 namespace AESUnitTesting
@@ -14,14 +14,14 @@ namespace AESUnitTesting
         [Test]
         public void Test_CreateEncryptor()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
         }
 
         [Test]
         public void Test_encryptSmallFinalBlock()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7 };
             byte[] after = encryptor.TransformFinalBlock(toTransform, 0, toTransform.Length);
@@ -32,7 +32,7 @@ namespace AESUnitTesting
         [Test]
         public void Test_encryptSmallFinalBlockAfterOtherBlock()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
 
             byte[] firstBlock = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
@@ -52,7 +52,7 @@ namespace AESUnitTesting
         [Test]
         public void Test_encryptLargeFinalBlock()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
 
             byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, };
@@ -64,7 +64,7 @@ namespace AESUnitTesting
         [Test]
         public void Test_encryptBlock()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             byte[] output = new byte[16];
@@ -75,7 +75,7 @@ namespace AESUnitTesting
         [Test]
         public void Test_encryptMultipleBlocks()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, };
             byte[] output = new byte[48];
@@ -87,7 +87,7 @@ namespace AESUnitTesting
         [Test]
         public void Test_encryptLargeBlock()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, };
             byte[] output = new byte[48];
@@ -98,7 +98,7 @@ namespace AESUnitTesting
         [Test]
         public void Test_encryptInvalidSmallSize()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
             try
@@ -115,7 +115,7 @@ namespace AESUnitTesting
         [Test]
         public void Test_encryptInvalidLargeSize()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
             try
@@ -132,28 +132,28 @@ namespace AESUnitTesting
         [Test]
         public void Test_encryptorInputBlockSize()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             Assert.AreEqual(encryptor.InputBlockSize, blocksize);
         }
         [Test]
         public void Test_encryptorOutputBlockSize()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             Assert.AreEqual(encryptor.OutputBlockSize, blocksize);
         }
         [Test]
         public void Test_encryptorCanReuseTransform()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             Assert.IsTrue(encryptor.CanReuseTransform);
         }
         [Test]
         public void Test_encryptorCanTransformMultipleBlocks()
         {
-            AES.AES aes = new AES.AES(Key, IV);
+            AES aes = new AES(Key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             Assert.IsTrue(encryptor.CanTransformMultipleBlocks);
         }
@@ -161,7 +161,7 @@ namespace AESUnitTesting
         public void Test_encryptWith24ByteKey()
         {
             byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
-            AES.AES aes = new AES.AES(key, IV);
+            AES aes = new AES(key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             byte[] output = new byte[16];
@@ -173,7 +173,7 @@ namespace AESUnitTesting
         public void Test_encryptWith16ByteKey()
         {
             byte[] key = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-            AES.AES aes = new AES.AES(key, IV);
+            AES aes = new AES(key, IV);
             ICryptoTransform encryptor = aes.CreateEncryptor();
             byte[] toTransform = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             byte[] output = new byte[16];

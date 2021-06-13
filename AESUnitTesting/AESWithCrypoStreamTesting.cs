@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using NUnit.Framework;
+using Cryptography;
 
 namespace AESUnitTesting
 {
@@ -11,7 +12,7 @@ namespace AESUnitTesting
         public void Test_cryptoStream()
         {
             MemoryStream memStream = new MemoryStream();
-            AES.AES aes = new AES.AES();
+            AES aes = new AES();
             byte[] bytes = new byte[1024];
 
             Random rand = new Random();
@@ -43,7 +44,7 @@ namespace AESUnitTesting
         public void Test_cryptoStreamWithTransformFinal()
         {
             MemoryStream memStream = new MemoryStream();
-            AES.AES aes = new AES.AES();
+            AES aes = new AES();
             byte[] bytes = new byte[1020];
 
             Random rand = new Random();
